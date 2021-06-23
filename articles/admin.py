@@ -1,28 +1,26 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.forms import BaseInlineFormSet
-from .models import Article
+from articles.models import Article, Scope, ArticleScopeship
 
 
-class RelationshipInlineFormset(BaseInlineFormSet):
+class ArticleScopeshipInlineFormset(BaseInlineFormSet):
     def clean(self):
         for form in self.forms:
-            # В form.cleaned_data будет словарь с данными
-            # каждой отдельной формы, которые вы можете проверить
             form.cleaned_data
-            # вызовом исключения ValidationError можно указать админке о наличие ошибки
-            # таким образом объект не будет сохранен,
-            # а пользователю выведется соответствующее сообщение об ошибке
             raise ValidationError('Тут всегда ошибка')
-        return super().clean()  # вызываем базовый код переопределяемого метода
+        return super().clean()
 
 
-# class RelationshipInline(admin.TabularInline):
-#     model = Relationship
-#     formset = RelationshipInlineFormset
+class ArticleScopeshipInline(admin.TabularInline):
+    model = ArticleScopeship
 
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    # inlines = [RelationshipInline]
-    pass
+    inlines = [ArticleScopeshipInline]
+
+
+@admin.register(Scope)
+class ScopeAdmin(admin.ModelAdmin):
+    inlines = [ArticleScopeshipInline]

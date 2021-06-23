@@ -16,11 +16,19 @@ class Article(models.Model):
         return self.title
 
 
-class Scopes(models.Model):
+class Scope(models.Model):
     name = models.TextField()
-    tag = models.ManyToManyField(Article, related_name='scope')
+    tag = models.ManyToManyField(Article, through='ArticleScopeship', related_name='scopes')
+
+    class Meta:
+        verbose_name = 'Раздел'
+        verbose_name_plural = 'Разделы'
+
+    def __str__(self):
+        return self.name
 
 
-
-
-
+class ArticleScopeship(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True)
+    scope = models.ForeignKey(Scope, on_delete=models.CASCADE, null=True, blank=True)
+    is_main = models.BooleanField(verbose_name='основной')

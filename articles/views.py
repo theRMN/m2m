@@ -21,8 +21,8 @@ def articles_list(request):
                 ]
             }
         }
-
-        for i in ar.scope.all():
+        print(ar.scopes.all())
+        for i in ar.scopes.all():
             obj['scopes']['all'].append({'tag': {'name': i.name}})
 
         object_list.append(obj)
