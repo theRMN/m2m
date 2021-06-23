@@ -17,13 +17,12 @@ def articles_list(request):
             'published_at': ar.published_at,
             'image': ar.image,
             'scopes': {
-                'scope_name': ar.scope.name,
                 'all': [
                 ]
             }
         }
 
-        for i in ar.scope.tag.all():
+        for i in ar.scope.all():
             obj['scopes']['all'].append({'tag': {'name': i.name}})
 
         object_list.append(obj)
