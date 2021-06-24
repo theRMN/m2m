@@ -4,12 +4,25 @@ from django.forms import BaseInlineFormSet
 from articles.models import Article, Scope, ArticleScopeship
 
 
-class ArticleScopeshipInlineFormset(BaseInlineFormSet):
-    def clean(self):
-        for form in self.forms:
-            form.cleaned_data
-            raise ValidationError('Тут всегда ошибка')
-        return super().clean()
+# class ArticleScopeshipInlineFormset(BaseInlineFormSet):
+#     def clean(self):
+#         count = 0
+#         has_tag = False
+#
+#         for form in self.forms:
+#             if form.cleaned_data.get('is_main'):
+#                 count += 1
+#             if form.cleaned_data.get('scope'):
+#                 has_tag = True
+#
+#         if count == 0 and has_tag:
+#             raise ValidationError('Тут всегда ошибка')
+#         if count > 1:
+#             raise ValidationError('Тут всегда ошибка')
+#
+#         return super().clean()
+
+# Оно просто не работает.....................................
 
 
 class ArticleScopeshipInline(admin.TabularInline):
@@ -24,3 +37,4 @@ class ArticleAdmin(admin.ModelAdmin):
 @admin.register(Scope)
 class ScopeAdmin(admin.ModelAdmin):
     inlines = [ArticleScopeshipInline]
+

@@ -29,6 +29,26 @@ class Scope(models.Model):
 
 
 class ArticleScopeship(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True)
-    scope = models.ForeignKey(Scope, on_delete=models.CASCADE, null=True, blank=True)
-    is_main = models.BooleanField(verbose_name='основной')
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        default=None,
+        related_name='scopeships',
+    )
+    scope = models.ForeignKey(
+        Scope,
+        on_delete=models.CASCADE,
+        default=None,
+        related_name='scopeships',
+        verbose_name='Разделы')
+
+    is_main = models.BooleanField(
+        verbose_name='основной'
+    )
+
+    class Meta:
+        verbose_name = 'Тематика статьи'
+        verbose_name_plural = 'Тематики статьи'
+
+    def __str__(self):
+        return f'id:({self.id}) == {str(self.is_main)}'
