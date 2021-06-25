@@ -4,29 +4,25 @@ from django.forms import BaseInlineFormSet
 from articles.models import Article, Scope, ArticleScopeship
 
 
-# class ArticleScopeshipInlineFormset(BaseInlineFormSet):
-#     def clean(self):
-#         count = 0
-#         has_tag = False
-#
-#         for form in self.forms:
-#             if form.cleaned_data.get('is_main'):
-#                 count += 1
-#             if form.cleaned_data.get('scope'):
-#                 has_tag = True
-#
-#         if count == 0 and has_tag:
-#             raise ValidationError('Тут всегда ошибка')
-#         if count > 1:
-#             raise ValidationError('Тут всегда ошибка')
-#
-#         return super().clean()
+class ArticleScopeshipInlineFormSet(BaseInlineFormSet):
+    def clean(self):
+        count = 0
 
-# Оно просто не работает.....................................
+        for form in self.forms:
+            if form.cleaned_data.get('is_main'):
+                count += 1
+
+        if count == 0:
+            raise ValidationError('У статьи должен быть основой раздел')
+        if count > 1:
+            raise ValidationError('Основной раздел может быть только один')
+
+        return super().clean()
 
 
 class ArticleScopeshipInline(admin.TabularInline):
     model = ArticleScopeship
+    formset = ArticleScopeshipInlineFormSet
 
 
 @admin.register(Article)
