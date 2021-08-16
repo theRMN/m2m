@@ -23,6 +23,7 @@ class Scope(models.Model):
     class Meta:
         verbose_name = 'Раздел'
         verbose_name_plural = 'Разделы'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -49,6 +50,7 @@ class ArticleScopeship(models.Model):
     class Meta:
         verbose_name = 'Тематика статьи'
         verbose_name_plural = 'Тематики статьи'
+        ordering = ['-is_main']
 
     def __str__(self):
         return f'id:({self.id}) == {str(self.is_main)}'
